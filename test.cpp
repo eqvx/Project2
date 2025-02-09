@@ -84,6 +84,8 @@ int main()
 
     float oldPosX = 0;
     float oldPosY = 0;
+
+    Rectangle guiRec = createRect(30, 100, 200, 200, DARKGRAY, false);
     
     while (!WindowShouldClose())        // Detect window close button or ESC key
     {
@@ -137,9 +139,9 @@ int main()
         hitbox.x = posX + 5;
         hitbox.y = posY + 5;
         BeginDrawing();
-        //GuiButton(createRect(30, 30, 200, 200, DARKBLUE, false), "#191#Show Message!");
-        ClearBackground(SKYBLUE);
         
+        ClearBackground(SKYBLUE);
+        GuiButton(guiRec, "Hi!");
         renderRects();
 
         std::string a = "k: " + std::to_string((float)recs.size() / 250);
