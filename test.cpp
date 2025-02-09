@@ -1,5 +1,7 @@
 ﻿#include "serek.h"
 
+#include "Player.hpp"
+
 std::vector<Rectangle> recs;
 
 std::vector<Color> colors = { WHITE, RAYWHITE, GRAY, LIGHTGRAY, DARKGRAY, GREEN, DARKGREEN, YELLOW, BLUE, DARKBLUE, BROWN, DARKBROWN, RED, PURPLE, DARKPURPLE };
@@ -55,20 +57,12 @@ int main()
 
     int radius = 10;
 
-    Texture2D PlayerTexture = LoadTexture("assets/a.png");
     Image windowImage = LoadImage("assets/a.png");
     SetWindowIcon(windowImage);
     UnloadImage(windowImage);
 
     ToggleFullscreen();
 
-    PlayerTexture.height = 30;
-    PlayerTexture.width = 30;
-    float posX = 0;
-    float posY = 0;
-
-    Sound oof = LoadSound("assets/oof.mp3");
-    Sound tada = LoadSound("assets/tada.mp3");
     SetMasterVolume((float)0.1);
     float speed = 100 * cl_speedmultiplier;
 
@@ -79,13 +73,9 @@ int main()
         createRect((float)GetRandomValue(20, 60), (float)GetRandomValue(20, 60), (float)GetRandomValue(0, 2560), (float)GetRandomValue(0, 1080), colors[GetRandomValue(0, (int)colors.size() - 1)], true);
     }
 
-    Rectangle hitbox = createRect(20, 20, 0, 0, RED, false);
     bool showHitbox = false;
 
-    float oldPosX = 0;
-    float oldPosY = 0;
-
-    Rectangle guiRec = createRect(30, 100, 200, 200, DARKGRAY, false);
+    Player* localPlayer = new Player(LoadTexture("assets/a.png"), Vector2{ 30,30 }, Vector2{ 20,20 });
 
     while (!WindowShouldClose())        // Detect window close button or ESC key
     {
@@ -122,23 +112,9 @@ int main()
                 createRect((float)GetRandomValue(20, 60), (float)GetRandomValue(20, 60), (float)GetRandomValue(0, 2560), (float)GetRandomValue(0, 1080), colors[GetRandomValue(0, (int)colors.size() - 1)], true);
             }
         }
-        
-        float deltaTime = GetFrameTime();    
 
-       if (IsKeyDown(KEY_W) && posY >= 0)
-            posY -= speed * deltaTime;
-        if (IsKeyDown(KEY_S) && posY + 30 < GetScreenHeight())
-            posY += speed * deltaTime;
+        localPlayer->Update();
 
-        if (IsKeyDown(KEY_A) && posX >= 0)
-            posX -= speed * deltaTime;
-        if (IsKeyDown(KEY_D) && posX + 30 < GetScreenWidth())
-            posX += speed * deltaTime;
-        else if (IsKeyDown(KEY_D) and not IsSoundPlaying(tada))
-            PlaySound(tada);
-        /* Player Hitbox */
-        hitbox.x = posX + 5;
-        hitbox.y = posY + 5;
         BeginDrawing();
         
         ClearBackground(SKYBLUE);
@@ -150,17 +126,10 @@ int main()
         DrawText(a.c_str(), 2, 40, 20, RED);
 
         if (!cl_noclipenabled) {
-            bool colliding = isCollidingRecs(hitbox, recs);
+            bool colliding = isCollidingRecs(localPlayer->GetHitbox(), recs);
 
             if (colliding) {
-                /*posX = oldPosX;
-                posY = oldPosY;*/
-
-                posX = 0;
-                posY = 0;
-
-                if (not IsSoundPlaying(oof))
-                    PlaySound(oof);
+                localPlayer->Reset();
             }
         }
         else {
@@ -169,22 +138,13 @@ int main()
             
         /* Player Texture */
 
-        DrawTexture(PlayerTexture, (int)posX, (int)posY, clr);
-
-        if (showHitbox)
-            DrawRectangleRec(hitbox, hitbox.color);
+        localPlayer->Draw(WHITE, showHitbox);
 
         DrawFPS(0, 0);
         EndDrawing();
-
-
-        oldPosX = posX;
-        oldPosY = posY;
     }
 
-    UnloadTexture(PlayerTexture);
-    UnloadSound(oof);
-    UnloadSound(tada);
+    delete localPlayer;
 
     CloseWindow();        
     return 0;
