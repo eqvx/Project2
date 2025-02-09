@@ -1,5 +1,4 @@
 ﻿#include "serek.h"
-
 #include "Player.hpp"
 
 std::vector<Rectangle> recs;
@@ -45,6 +44,9 @@ Rectangle createRect(float width, float height, float x, float y, Color color, b
 int main()
 {
 
+    Sound oof = LoadSound("assets/oof.mp3");
+    Sound tada = LoadSound("assets/tada.mp3");
+
     constexpr int screenWidth = 1920;
     constexpr int screenHeight = 1080;
     
@@ -75,7 +77,7 @@ int main()
 
     bool showHitbox = false;
 
-    Player* localPlayer = new Player(LoadTexture("assets/a.png"), Vector2{ 30,30 }, Vector2{ 20,20 });
+    Player localPlayer(LoadTexture("assets/a.png"), Vector2{ 30,30 }, Vector2{ 20,20 });
 
     while (!WindowShouldClose())        // Detect window close button or ESC key
     {
@@ -113,7 +115,7 @@ int main()
             }
         }
 
-        localPlayer->Update();
+        localPlayer.Update(cl_speedmultiplier, tada);
 
         BeginDrawing();
         
@@ -126,10 +128,13 @@ int main()
         DrawText(a.c_str(), 2, 40, 20, RED);
 
         if (!cl_noclipenabled) {
-            bool colliding = isCollidingRecs(localPlayer->GetHitbox(), recs);
+            bool colliding = isCollidingRecs(localPlayer.GetHitbox(), recs);
 
             if (colliding) {
-                localPlayer->Reset();
+                if (not IsSoundPlaying(oof))
+                    PlaySound(oof);
+
+                localPlayer.Reset();
             }
         }
         else {
@@ -138,14 +143,16 @@ int main()
             
         /* Player Texture */
 
-        localPlayer->Draw(WHITE, showHitbox);
+        localPlayer.Draw(clr, showHitbox);
 
         DrawFPS(0, 0);
         EndDrawing();
     }
 
-    delete localPlayer;
+    UnloadSound(oof);
+    UnloadSound(tada);
 
+    CloseAudioDevice();
     CloseWindow();        
     return 0;
 }

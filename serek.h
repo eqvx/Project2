@@ -1,5 +1,9 @@
 #pragma once
 
+#ifndef Serek
+#define Serek
+#endif
+
 //#include "imgui.h"
 //#include "imgui_internal.h"
 //#include "imgui_stdlib.h"
@@ -109,6 +113,6 @@
 #define RAYGUI_IMPLEMENTATION
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include "raygui.h"
+//#include "raygui.h"
 
 
