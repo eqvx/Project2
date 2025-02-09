@@ -86,8 +86,6 @@ int main()
     float oldPosY = 0;
 
     Rectangle guiRec = createRect(30, 100, 200, 200, DARKGRAY, false);
-    
-    Vector2 dir;
 
     while (!WindowShouldClose())        // Detect window close button or ESC key
     {
@@ -125,16 +123,9 @@ int main()
             }
         }
         
-        float deltaTime = GetFrameTime();
+        float deltaTime = GetFrameTime();    
 
-        dir.x = (int)((int)IsKeyDown(KEY_D) - (int)IsKeyDown(KEY_A));
-        dir.y = (int)((int)IsKeyDown(KEY_S) - (int)IsKeyDown(KEY_W));
-        dir = Vector2Normalize(dir);
-
-        posX += dir.x * speed * deltaTime;
-        posY += dir.y * speed * deltaTime;
-
-       /* if (IsKeyDown(KEY_W) && posY >= 0)
+       if (IsKeyDown(KEY_W) && posY >= 0)
             posY -= speed * deltaTime;
         if (IsKeyDown(KEY_S) && posY + 30 < GetScreenHeight())
             posY += speed * deltaTime;
@@ -142,9 +133,9 @@ int main()
         if (IsKeyDown(KEY_A) && posX >= 0)
             posX -= speed * deltaTime;
         if (IsKeyDown(KEY_D) && posX + 30 < GetScreenWidth())
-            posX += speed * deltaTime;*/
-        //else if (IsKeyDown(KEY_D) and not IsSoundPlaying(tada))
-        //    PlaySound(tada);
+            posX += speed * deltaTime;
+        else if (IsKeyDown(KEY_D) and not IsSoundPlaying(tada))
+            PlaySound(tada);
         /* Player Hitbox */
         hitbox.x = posX + 5;
         hitbox.y = posY + 5;
