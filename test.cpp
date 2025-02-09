@@ -43,10 +43,6 @@ Rectangle createRect(float width, float height, float x, float y, Color color, b
 
 int main()
 {
-
-    Sound oof = LoadSound("assets/oof.mp3");
-    Sound tada = LoadSound("assets/tada.mp3");
-
     constexpr int screenWidth = 1920;
     constexpr int screenHeight = 1080;
     
@@ -56,6 +52,9 @@ int main()
     InitWindow(screenWidth, screenHeight, ":skul:");
 
     InitAudioDevice();
+
+    Sound oof = LoadSound("assets/oof.mp3");
+    Sound tada = LoadSound("assets/tada.mp3");
 
     int radius = 10;
 

@@ -5,7 +5,7 @@ C:\Users\besto\source\repos\Project2\Project2\Player.hpp(10,22): warning C4244: 
 C:\Users\besto\source\repos\Project2\Project2\Player.hpp(11,21): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
   (compiling source file 'test.cpp')
   
-C:\Users\besto\source\repos\Project2\Project2\test.cpp(118,28): warning C4244: 'argument': conversion from 'float' to 'const int', possible loss of data
+C:\Users\besto\source\repos\Project2\Project2\test.cpp(117,28): warning C4244: 'argument': conversion from 'float' to 'const int', possible loss of data
   Generating code
   1 of 260 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
