@@ -127,12 +127,12 @@ int main()
         
         float deltaTime = GetFrameTime();
 
-        dir.x = (int)IsKeyDown(KEY_D) - (int)IsKeyDown(KEY_A);
-        dir.y = (int)IsKeyDown(KEY_S) - (int)IsKeyDown(KEY_W);
+        dir.x = (int)((int)IsKeyDown(KEY_D) - (int)IsKeyDown(KEY_A));
+        dir.y = (int)((int)IsKeyDown(KEY_S) - (int)IsKeyDown(KEY_W));
         dir = Vector2Normalize(dir);
 
-        posX = dir.x * speed * deltaTime;
-        posY = dir.y * speed * deltaTime;
+        posX += dir.x * speed * deltaTime;
+        posY += dir.y * speed * deltaTime;
 
        /* if (IsKeyDown(KEY_W) && posY >= 0)
             posY -= speed * deltaTime;
@@ -153,8 +153,6 @@ int main()
         ClearBackground(SKYBLUE);
 
         renderRects();
-
-        GuiButton(guiRec, "Hi!");
 
         std::string a = "k: " + std::to_string((float)recs.size() / 250);
 
