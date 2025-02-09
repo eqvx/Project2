@@ -87,6 +87,8 @@ int main()
 
     Rectangle guiRec = createRect(30, 100, 200, 200, DARKGRAY, false);
     
+    Vector2 dir;
+
     while (!WindowShouldClose())        // Detect window close button or ESC key
     {
 
@@ -124,6 +126,7 @@ int main()
         }
         
         float deltaTime = GetFrameTime();
+
         if (IsKeyDown(KEY_W) && posY >= 0)
             posY -= speed * deltaTime;
         if (IsKeyDown(KEY_S) && posY + 30 < GetScreenHeight())
@@ -141,8 +144,10 @@ int main()
         BeginDrawing();
         
         ClearBackground(SKYBLUE);
-        GuiButton(guiRec, "Hi!");
+
         renderRects();
+
+        GuiButton(guiRec, "Hi!");
 
         std::string a = "k: " + std::to_string((float)recs.size() / 250);
 
