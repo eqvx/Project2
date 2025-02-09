@@ -52,9 +52,6 @@ int main()
     InitWindow(screenWidth, screenHeight, ":skul:");
 
     InitAudioDevice();
-    
-    Camera2D camera = { 0 };
-    camera.zoom = 1.0f;
 
     int radius = 10;
 
